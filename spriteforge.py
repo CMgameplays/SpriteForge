@@ -1,21 +1,21 @@
+import os
+import sys
 import base64
 import io
-import webbrowser
-from threading import Timer
 
-from flask import Flask, jsonify, render_template, request
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
+from flask import Blueprint, jsonify, render_template, request
 from PIL import Image
 
-app = Flask(__name__)
+try:
+    from shared.limiter import limiter
+except ImportError:
+    from flask_limiter import Limiter
+    from flask_limiter.util import get_remote_address
+    limiter = Limiter(get_remote_address, storage_uri="memory://")
 
-limiter = Limiter(
-    get_remote_address,
-    app=app,
-    default_limits=["200 per day", "50 per hour"],
-    storage_uri="memory://",
-)
+bp = Blueprint("spriteforge", __name__, template_folder="templates")
 
 
 def next_power_of_2(n: int) -> int:
@@ -69,12 +69,12 @@ def pack_sprites(named_images: list, padding: int, sort_mode: str):
     return sheet, frames
 
 
-@app.route("/")
+@bp.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("spriteforge/index.html")
 
 
-@app.route("/api/pack", methods=["POST"])
+@bp.route("/api/pack", methods=["POST"])
 @limiter.limit("30 per minute")
 def api_pack():
     files = request.files.getlist("images[]")
@@ -120,5 +120,11 @@ def api_pack():
 
 
 if __name__ == "__main__":
+    import webbrowser
+    from threading import Timer
+    from flask import Flask
+    standalone = Flask(__name__)
+    standalone.register_blueprint(bp, url_prefix="/")
+    limiter.init_app(standalone)
     Timer(1.0, lambda: webbrowser.open("http://127.0.0.1:5000")).start()
-    app.run(debug=True, port=5000)
+    standalone.run(debug=True, port=5000)
