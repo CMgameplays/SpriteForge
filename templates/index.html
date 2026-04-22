@@ -6,136 +6,155 @@
   <title>SpriteForge — CMG Forge</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg:          #08090f;
-      --surface:     #0e1018;
-      --surface2:    #13151f;
-      --surface3:    #191c28;
-      --border:      #1c1f30;
-      --border-hi:   #2c3050;
-      --text:        #c8d0e8;
-      --text-dim:    #4e5570;
-      --text-bright: #e6eeff;
-      --font-ui:     'Rajdhani', 'Segoe UI', system-ui, sans-serif;
-      --font-mono:   'Share Tech Mono', 'Consolas', monospace;
-      --accent:      #a855f7;
-      --accent-20:   rgba(168,85,247,0.20);
-      --accent-08:   rgba(168,85,247,0.08);
-      --accent-glow: rgba(168,85,247,0.45);
+      --forge-bg:       #08090f;
+      --forge-surface:  #0f1120;
+      --forge-purple:   #a855f7;
+      --forge-indigo:   #6366f1;
+      --forge-ember:    #f97316;
+      --forge-text:     #f1f5f9;
+      --forge-muted:    #64748b;
+      --forge-green:    #22c55e;
+      --forge-red:      #f87171;
+      --clip:    polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      --clip-sm: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
       height: 100%;
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-ui);
+      background: var(--forge-bg);
+      color: var(--forge-text);
+      font-family: 'Rajdhani', system-ui, sans-serif;
       font-size: 14px;
       line-height: 1.5;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
-    /* ── Header ──────────────────────────────────────────── */
-    .header {
+    /* ── Navbar ──────────────────────────────────────── */
+    .navbar {
       height: 52px;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      background: var(--forge-bg);
+      border-bottom: 1px solid rgba(99, 102, 241, 0.18);
       display: flex;
       align-items: center;
-      gap: 12px;
       padding: 0 20px;
-      flex-shrink: 0;
-      position: relative;
-      z-index: 10;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
-    .logo {
-      width: 36px;
-      height: 36px;
-      border: 2px solid var(--accent);
-      box-shadow: 0 0 12px var(--accent-glow);
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .nav-mark {
+      width: 30px;
+      height: 30px;
+      background: var(--forge-surface);
+      border: 1px solid rgba(99, 102, 241, 0.35);
       display: flex;
       align-items: center;
       justify-content: center;
+      clip-path: var(--clip-sm);
       flex-shrink: 0;
     }
 
-    .header h1 {
-      font-family: var(--font-ui);
+    .nav-wordmark {
+      font-family: 'Rajdhani', sans-serif;
       font-weight: 700;
-      font-size: 1.35rem;
-      color: var(--text-bright);
-      letter-spacing: 1px;
-    }
-
-    .version-badge {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--text-dim);
-      background: var(--surface2);
-      border: 1px solid var(--border-hi);
-      padding: 2px 7px;
-      border-radius: 3px;
-      letter-spacing: 0.5px;
-    }
-
-    .cmg-badge {
-      margin-left: auto;
-      font-family: var(--font-ui);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      color: var(--text-dim);
+      font-size: 1rem;
+      letter-spacing: 3px;
+      color: var(--forge-text);
       text-transform: uppercase;
     }
 
-    /* ── App body ─────────────────────────────────────────── */
-    .app-body {
-      display: flex;
-      height: calc(100vh - 52px);
-      overflow: hidden;
+    .nav-sep {
+      width: 1px;
+      height: 18px;
+      background: rgba(99, 102, 241, 0.25);
+      margin: 0 14px;
+      flex-shrink: 0;
     }
 
-    /* ── Controls panel ───────────────────────────────────── */
+    .nav-tool {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      color: var(--forge-muted);
+      letter-spacing: 1px;
+    }
+
+    .nav-spacer { flex: 1; }
+
+    .nav-link {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--forge-muted);
+      text-decoration: none;
+      padding: 5px 12px;
+      border: 1px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+
+    .nav-link:hover {
+      color: var(--forge-text);
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+
+    /* ── App body ─────────────────────────────────────── */
+    .app-body {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    /* ── Controls panel ───────────────────────────────── */
     .controls-panel {
       width: 300px;
       flex-shrink: 0;
-      background: var(--surface);
-      border-right: 1px solid var(--border);
+      background: var(--forge-surface);
+      border-right: 1px solid rgba(99, 102, 241, 0.15);
       overflow-y: auto;
       display: flex;
       flex-direction: column;
       padding: 16px;
-      gap: 0;
     }
 
-    .controls-panel::-webkit-scrollbar { width: 4px; }
+    .controls-panel::-webkit-scrollbar { width: 3px; }
     .controls-panel::-webkit-scrollbar-track { background: transparent; }
-    .controls-panel::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 2px; }
+    .controls-panel::-webkit-scrollbar-thumb { background: rgba(99, 102, 241, 0.3); }
 
-    /* ── Drop zone ────────────────────────────────────────── */
+    /* ── Drop zone ────────────────────────────────────── */
     .dropzone {
       position: relative;
-      border: 1.5px dashed var(--border-hi);
-      border-radius: 6px;
+      border: 1.5px dashed rgba(99, 102, 241, 0.35);
       padding: 28px 16px 24px;
       text-align: center;
       cursor: pointer;
       transition: border-color 0.15s, background 0.15s;
       flex-shrink: 0;
+      clip-path: var(--clip);
     }
 
-    .dropzone:hover {
-      border-color: var(--accent);
-      background: var(--accent-08);
-    }
-
+    .dropzone:hover,
     .dropzone.drag-over {
-      border-color: var(--accent);
-      background: var(--accent-08);
+      border-color: var(--forge-purple);
+      background: rgba(168, 85, 247, 0.06);
     }
 
     .dropzone input[type="file"] {
@@ -148,25 +167,28 @@
     }
 
     .drop-icon {
-      color: var(--accent);
+      color: var(--forge-purple);
       margin-bottom: 8px;
       opacity: 0.7;
     }
 
     .drop-title {
+      font-family: 'Rajdhani', sans-serif;
       font-size: 13px;
       font-weight: 600;
-      color: var(--text);
-      letter-spacing: 0.3px;
+      color: var(--forge-text);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
     }
 
     .drop-sub {
+      font-family: 'Share Tech Mono', monospace;
       font-size: 11px;
-      color: var(--text-dim);
+      color: var(--forge-muted);
       margin-top: 4px;
     }
 
-    /* ── File list ────────────────────────────────────────── */
+    /* ── File list ────────────────────────────────────── */
     .file-list {
       display: flex;
       flex-direction: column;
@@ -180,32 +202,30 @@
 
     .file-list::-webkit-scrollbar { width: 3px; }
     .file-list::-webkit-scrollbar-track { background: transparent; }
-    .file-list::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 2px; }
+    .file-list::-webkit-scrollbar-thumb { background: rgba(99, 102, 241, 0.3); }
 
     .file-item {
       display: flex;
       align-items: center;
       gap: 8px;
       padding: 5px 8px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 4px;
+      background: rgba(99, 102, 241, 0.05);
+      border: 1px solid rgba(99, 102, 241, 0.15);
       min-width: 0;
     }
 
     .file-thumb {
       width: 20px;
       height: 20px;
-      border-radius: 2px;
       object-fit: cover;
       flex-shrink: 0;
-      background: var(--surface3);
+      background: var(--forge-bg);
     }
 
     .file-name {
-      font-family: var(--font-mono);
+      font-family: 'Share Tech Mono', monospace;
       font-size: 11px;
-      color: var(--text);
+      color: var(--forge-text);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -216,7 +236,7 @@
     .file-remove {
       background: none;
       border: none;
-      color: var(--text-dim);
+      color: var(--forge-muted);
       cursor: pointer;
       padding: 0 2px;
       font-size: 15px;
@@ -227,19 +247,19 @@
       align-items: center;
     }
 
-    .file-remove:hover { color: #f87171; }
+    .file-remove:hover { color: var(--forge-red); }
 
-    /* ── Section separator ────────────────────────────────── */
+    /* ── Section label ────────────────────────────────── */
     .sec {
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 2.5px;
-      color: var(--text-dim);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--forge-muted);
       text-transform: uppercase;
-      font-family: var(--font-ui);
       margin: 20px 0 14px;
       flex-shrink: 0;
     }
@@ -247,10 +267,10 @@
     .sec-line {
       flex: 1;
       height: 1px;
-      background: var(--border);
+      background: rgba(99, 102, 241, 0.15);
     }
 
-    /* ── Field ────────────────────────────────────────────── */
+    /* ── Field ────────────────────────────────────────── */
     .field {
       display: flex;
       flex-direction: column;
@@ -259,21 +279,21 @@
     }
 
     .field-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      color: var(--text-dim);
-      font-family: var(--font-ui);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--forge-muted);
       text-transform: uppercase;
     }
 
     .field-input {
-      background: var(--surface2);
-      border: 1px solid var(--border-hi);
-      border-radius: 4px;
+      background: var(--forge-surface);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 0;
       padding: 7px 10px;
-      color: var(--text);
-      font-family: var(--font-mono);
+      color: var(--forge-text);
+      font-family: 'Share Tech Mono', monospace;
       font-size: 13px;
       width: 100%;
       outline: none;
@@ -281,15 +301,14 @@
       -moz-appearance: textfield;
     }
 
-    .field-input:focus { border-color: var(--accent); }
+    .field-input:focus { border-color: var(--forge-indigo); }
     .field-input::-webkit-inner-spin-button,
     .field-input::-webkit-outer-spin-button { -webkit-appearance: none; }
 
-    /* ── Segmented control ────────────────────────────────── */
+    /* ── Segmented control ────────────────────────────── */
     .seg-group {
       display: flex;
-      border: 1px solid var(--border-hi);
-      border-radius: 4px;
+      border: 1px solid rgba(99, 102, 241, 0.3);
       overflow: hidden;
     }
 
@@ -298,60 +317,61 @@
       padding: 7px 10px;
       background: none;
       border: none;
-      color: var(--text-dim);
-      font-family: var(--font-ui);
+      color: var(--forge-muted);
+      font-family: 'Rajdhani', sans-serif;
       font-size: 11px;
       font-weight: 600;
-      letter-spacing: 1.5px;
+      letter-spacing: 2px;
       text-transform: uppercase;
       cursor: pointer;
       transition: color 0.15s, background 0.15s;
     }
 
     .seg-btn + .seg-btn {
-      border-left: 1px solid var(--border-hi);
+      border-left: 1px solid rgba(99, 102, 241, 0.3);
     }
 
     .seg-btn:hover:not(.active) {
-      color: var(--text);
-      background: var(--surface3);
+      color: var(--forge-text);
+      background: rgba(99, 102, 241, 0.08);
     }
 
     .seg-btn.active {
-      color: var(--accent);
-      background: var(--accent-08);
+      color: var(--forge-indigo);
+      background: rgba(99, 102, 241, 0.12);
     }
 
-    /* ── Pack button ──────────────────────────────────────── */
+    /* ── Pack button — primary ember ─────────────────── */
     .btn-main {
       width: 100%;
       padding: 11px;
-      background: none;
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      font-family: var(--font-ui);
+      background: var(--forge-ember);
+      border: none;
+      color: #07080d;
+      font-family: 'Rajdhani', sans-serif;
       font-size: 13px;
       font-weight: 700;
-      letter-spacing: 2.5px;
+      letter-spacing: 3px;
       text-transform: uppercase;
       cursor: pointer;
-      border-radius: 4px;
-      transition: box-shadow 0.2s, background 0.2s;
+      clip-path: var(--clip);
+      border-radius: 0;
+      transition: opacity 0.2s, box-shadow 0.2s;
       margin-top: 4px;
       flex-shrink: 0;
     }
 
     .btn-main:hover:not(:disabled) {
-      box-shadow: 0 0 18px var(--accent-glow);
-      background: var(--accent-08);
+      box-shadow: 0 0 24px rgba(249, 115, 22, 0.4);
+      opacity: 0.9;
     }
 
     .btn-main:disabled {
-      opacity: 0.35;
+      opacity: 0.28;
       cursor: not-allowed;
     }
 
-    /* ── Export row ───────────────────────────────────────── */
+    /* ── Export row ───────────────────────────────────── */
     .export-row {
       display: none;
       gap: 8px;
@@ -362,35 +382,40 @@
     .btn-export {
       flex: 1;
       padding: 8px 6px;
-      background: var(--surface2);
-      border: 1px solid var(--border-hi);
-      color: var(--text);
-      font-family: var(--font-ui);
+      background: transparent;
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      color: var(--forge-text);
+      font-family: 'Rajdhani', sans-serif;
       font-size: 11px;
       font-weight: 600;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
       cursor: pointer;
-      border-radius: 4px;
-      transition: border-color 0.15s, color 0.15s;
+      border-radius: 0;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
     }
 
     .btn-export:hover {
-      border-color: var(--accent);
-      color: var(--accent);
+      border-color: var(--forge-indigo);
+      color: var(--forge-indigo);
+      background: rgba(99, 102, 241, 0.08);
     }
 
-    /* ── Preview panel ────────────────────────────────────── */
+    /* ── Preview panel ────────────────────────────────── */
     .preview-panel {
       flex: 1;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      background: var(--bg);
+      background: var(--forge-bg);
+      background-image:
+        linear-gradient(rgba(99, 102, 241, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 102, 241, 0.035) 1px, transparent 1px);
+      background-size: 28px 28px;
       position: relative;
     }
 
-    /* ── Empty state ──────────────────────────────────────── */
+    /* ── Empty state ──────────────────────────────────── */
     .empty-state {
       display: flex;
       flex-direction: column;
@@ -398,26 +423,32 @@
       justify-content: center;
       height: 100%;
       gap: 14px;
-      color: var(--text-dim);
+      color: var(--forge-muted);
       user-select: none;
     }
 
-    .empty-state svg { opacity: 0.18; }
+    .empty-state svg { opacity: 0.15; }
 
     .empty-state p {
+      font-family: 'Rajdhani', sans-serif;
       font-size: 14px;
-      font-weight: 500;
-      letter-spacing: 0.3px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
     }
 
     .empty-sub {
-      font-size: 12px !important;
-      color: var(--text-dim);
-      opacity: 0.6;
+      font-family: 'Share Tech Mono', monospace !important;
+      font-size: 11px !important;
+      color: var(--forge-muted);
+      opacity: 0.5;
       margin-top: -6px;
+      text-transform: none !important;
+      letter-spacing: 0 !important;
+      font-weight: 400 !important;
     }
 
-    /* ── Result wrap ──────────────────────────────────────── */
+    /* ── Result wrap ──────────────────────────────────── */
     .result-wrap {
       display: none;
       flex-direction: column;
@@ -427,24 +458,22 @@
     .results-bar {
       flex-shrink: 0;
       padding: 8px 16px;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
+      background: var(--forge-surface);
+      border-bottom: 1px solid rgba(99, 102, 241, 0.15);
       display: flex;
       align-items: center;
       gap: 20px;
     }
 
     .results-bar .info {
-      font-family: var(--font-mono);
+      font-family: 'Share Tech Mono', monospace;
       font-size: 12px;
-      color: var(--text-dim);
+      color: var(--forge-muted);
     }
 
-    .results-bar .info span {
-      color: var(--text);
-    }
+    .results-bar .info span { color: var(--forge-text); }
 
-    /* ── Canvas scroll area ───────────────────────────────── */
+    /* ── Canvas scroll area ───────────────────────────── */
     .canvas-scroll {
       flex: 1;
       overflow: auto;
@@ -456,25 +485,24 @@
 
     .canvas-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
     .canvas-scroll::-webkit-scrollbar-track { background: transparent; }
-    .canvas-scroll::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 3px; }
+    .canvas-scroll::-webkit-scrollbar-thumb { background: rgba(99, 102, 241, 0.3); border-radius: 3px; }
 
     .canvas-wrap {
       display: inline-block;
-      border: 1px solid var(--border);
-      /* Checkerboard for transparency */
-      background-color: #0d0d12;
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      background-color: #0b0b12;
       background-image:
-        linear-gradient(45deg, #16161f 25%, transparent 25%),
-        linear-gradient(-45deg, #16161f 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, #16161f 75%),
-        linear-gradient(-45deg, transparent 75%, #16161f 75%);
+        linear-gradient(45deg, #14141e 25%, transparent 25%),
+        linear-gradient(-45deg, #14141e 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #14141e 75%),
+        linear-gradient(-45deg, transparent 75%, #14141e 75%);
       background-size: 16px 16px;
       background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
     }
 
     #spriteCanvas { display: block; }
 
-    /* ── Error state ──────────────────────────────────────── */
+    /* ── Error state ──────────────────────────────────── */
     .error-state {
       display: none;
       flex-direction: column;
@@ -485,59 +513,89 @@
     }
 
     .error-msg {
-      font-family: var(--font-mono);
+      font-family: 'Share Tech Mono', monospace;
       font-size: 13px;
-      color: #f87171;
-      background: rgba(248,113,113,0.08);
-      border: 1px solid rgba(248,113,113,0.25);
-      border-radius: 4px;
+      color: var(--forge-red);
+      background: rgba(248, 113, 113, 0.07);
+      border: 1px solid rgba(248, 113, 113, 0.2);
       padding: 12px 20px;
       max-width: 500px;
       text-align: center;
+      clip-path: var(--clip);
+    }
+
+    /* ── Footer ───────────────────────────────────────── */
+    .forge-footer {
+      height: 36px;
+      flex-shrink: 0;
+      background: var(--forge-bg);
+      border-top: 1px solid rgba(99, 102, 241, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .forge-footer span,
+    .forge-footer a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--forge-muted);
+      text-decoration: none;
+      opacity: 0.55;
+    }
+
+    .forge-footer a:hover {
+      opacity: 1;
+      color: var(--forge-text);
     }
   </style>
 </head>
 <body>
 
-  <!-- ── Header ──────────────────────────────────────────── -->
-  <header class="header">
-    <div class="logo">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-        <rect x="1" y="1" width="8" height="8" rx="1" fill="var(--accent)" opacity="0.95"/>
-        <rect x="11" y="1" width="8" height="8" rx="1" fill="var(--accent)" opacity="0.55"/>
-        <rect x="1" y="11" width="8" height="8" rx="1" fill="var(--accent)" opacity="0.55"/>
-        <rect x="11" y="11" width="8" height="8" rx="1" fill="var(--accent)" opacity="0.25"/>
-      </svg>
-    </div>
-    <h1>SpriteForge</h1>
-    <span class="version-badge">v1.0.0</span>
-    <span class="cmg-badge">CMG Forge</span>
-  </header>
+  <!-- ── Navbar ──────────────────────────────────────── -->
+  <nav class="navbar">
+    <a href="https://cmgforge.com" class="nav-brand">
+      <div class="nav-mark">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <rect x="1" y="1" width="6" height="6" fill="var(--forge-purple)" opacity="0.9"/>
+          <rect x="9" y="1" width="6" height="6" fill="var(--forge-indigo)" opacity="0.6"/>
+          <rect x="1" y="9" width="6" height="6" fill="var(--forge-indigo)" opacity="0.6"/>
+          <rect x="9" y="9" width="6" height="6" fill="var(--forge-purple)" opacity="0.25"/>
+        </svg>
+      </div>
+      <span class="nav-wordmark">CMG Forge</span>
+    </a>
+    <div class="nav-sep"></div>
+    <span class="nav-tool">SpriteForge</span>
+    <div class="nav-spacer"></div>
+    <a href="https://cmgforge.com/tools" class="nav-link">All Tools</a>
+  </nav>
 
-  <!-- ── App body ────────────────────────────────────────── -->
+  <!-- ── App body ────────────────────────────────────── -->
   <div class="app-body">
 
-    <!-- ── Controls panel ──────────────────────────────────── -->
+    <!-- Controls panel -->
     <aside class="controls-panel">
 
       <!-- Drop zone -->
       <div class="dropzone" id="dropzone">
         <input type="file" id="fileInput" accept="image/*" multiple />
         <div class="drop-icon">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="16 16 12 12 8 16"/>
             <line x1="12" y1="12" x2="12" y2="21"/>
             <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
           </svg>
         </div>
         <div class="drop-title">Drop sprites here</div>
-        <div class="drop-sub">or click to browse — any image format</div>
+        <div class="drop-sub">click to browse — any image format</div>
       </div>
 
       <!-- File list -->
       <div class="file-list" id="fileList"></div>
 
-      <!-- Settings section -->
+      <!-- Settings -->
       <div class="sec"><span>Settings</span><span class="sec-line"></span></div>
 
       <div class="field">
@@ -553,10 +611,10 @@
         </div>
       </div>
 
-      <!-- Pack button -->
+      <!-- Pack -->
       <button class="btn-main" id="packBtn" disabled>Pack Sprites</button>
 
-      <!-- Export row (hidden until result) -->
+      <!-- Export (hidden until result) -->
       <div class="export-row" id="exportRow">
         <button class="btn-export" id="dlPng">&#8659; PNG</button>
         <button class="btn-export" id="dlJson">&#8659; JSON</button>
@@ -564,18 +622,18 @@
 
     </aside>
 
-    <!-- ── Preview panel ──────────────────────────────────── -->
+    <!-- Preview panel -->
     <div class="preview-panel">
 
       <!-- Empty state -->
       <div class="empty-state" id="emptyState">
         <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
-          <rect x="4" y="4" width="28" height="28" rx="2" stroke="var(--text-dim)" stroke-width="1.5"/>
-          <rect x="40" y="4" width="28" height="28" rx="2" stroke="var(--text-dim)" stroke-width="1.5"/>
-          <rect x="4" y="40" width="28" height="28" rx="2" stroke="var(--text-dim)" stroke-width="1.5"/>
-          <rect x="40" y="40" width="28" height="28" rx="2" stroke="var(--text-dim)" stroke-width="1.5"/>
-          <line x1="36" y1="4" x2="36" y2="68" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="3 3" opacity="0.4"/>
-          <line x1="4" y1="36" x2="68" y2="36" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="3 3" opacity="0.4"/>
+          <rect x="4" y="4" width="28" height="28" rx="0" stroke="var(--forge-muted)" stroke-width="1.5"/>
+          <rect x="40" y="4" width="28" height="28" rx="0" stroke="var(--forge-muted)" stroke-width="1.5"/>
+          <rect x="4" y="40" width="28" height="28" rx="0" stroke="var(--forge-muted)" stroke-width="1.5"/>
+          <rect x="40" y="40" width="28" height="28" rx="0" stroke="var(--forge-muted)" stroke-width="1.5"/>
+          <line x1="36" y1="4" x2="36" y2="68" stroke="var(--forge-indigo)" stroke-width="1" stroke-dasharray="3 3" opacity="0.3"/>
+          <line x1="4" y1="36" x2="68" y2="36" stroke="var(--forge-indigo)" stroke-width="1" stroke-dasharray="3 3" opacity="0.3"/>
         </svg>
         <p>Upload sprites and click Pack</p>
         <p class="empty-sub">Your sprite sheet will appear here</p>
@@ -600,6 +658,13 @@
 
     </div>
   </div>
+
+  <!-- ── Footer ──────────────────────────────────────── -->
+  <footer class="forge-footer">
+    <span>© CMG Forge — Free, forever.</span>
+    <span>·</span>
+    <a href="https://cmgforge.com">cmgforge.com</a>
+  </footer>
 
   <script>
     // ── State ────────────────────────────────────────────────
